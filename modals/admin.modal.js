@@ -17,10 +17,16 @@ const adminSchema = new Schema({
     required: true,
     trim: true, // Trims whitespace
   },
+  password: {
+    type: String,
+    required: true,
+    minlength: [6, 'Password must be at least 6 characters long'], // Minimum length validation
+    select: false, // Excludes password from query results for security
+  },
   role: {
     type: String,
     required: true,
-    enum: ['Volunteer', 'President', 'HOD'], // You can extend this list with other roles as needed
+    enum: ['Volunteer', 'President', 'HOD'], // Extendable list of roles
     default: 'User',
   },
 }, {

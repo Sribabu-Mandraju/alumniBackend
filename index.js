@@ -8,6 +8,11 @@ import adminRoutes from "./routes/admin.routes.js";
 import dotenv from "dotenv";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import authRoutes from "./routes/authRoutes.js";
+import donationRoutes from "./routes/donationRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
+import workshopRoutes from "./routes/workshopRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
 
 // Initialize dotenv for environment variables
 dotenv.config();
@@ -104,6 +109,12 @@ process.on("SIGTERM", () => {
 
 // Routes
 app.use("/admin", adminRoutes);
+// Authentication routes
+app.use("/auth",authRoutes);
+app.use("/donations",donationRoutes);
+app.use("/posts",postRoutes);
+app.use("/workshops",workshopRoutes);
+app.use("/events",eventRoutes); 
 
 console.log(`Server configured to run on port ${PORT}`);
 console.log("MongoDB connection attempted");
