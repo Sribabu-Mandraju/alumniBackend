@@ -4,8 +4,14 @@ import Alumni from "../modals/alumni.modal.js";
 // Create a donation and update Alumni reference
 export const createDonation = async (req, res) => {
   try {
-    const { donationName, purpose, initiatedBy, totalFund, contributors } = req.body;
-    
+    const {
+      donationName,
+      purpose,
+      initiatedBy,
+      totalFund,
+      contributors,
+    } = req.body;
+
     // Ensure 'initiatedBy' is a valid Alumni ID
     const alumni = await Alumni.findById(initiatedBy);
     if (!alumni) {
@@ -17,7 +23,7 @@ export const createDonation = async (req, res) => {
       purpose,
       initiatedBy,
       totalFund,
-      contributors,  // Including contributors while creating the donation
+      contributors, // Including contributors while creating the donation
     });
 
     await donation.save();
@@ -30,7 +36,11 @@ export const createDonation = async (req, res) => {
     for (const contributor of contributors) {
       const contributorAlumni = await Alumni.findById(contributor.alumni);
       if (!contributorAlumni) {
-        return res.status(404).json({ error: `Contributor alumni ${contributor.alumni} not found` });
+        return res
+          .status(404)
+          .json({
+            error: `Contributor alumni ${contributor.alumni} not found`,
+          });
       }
       contributorAlumni.donations.push(donation._id);
       await contributorAlumni.save();

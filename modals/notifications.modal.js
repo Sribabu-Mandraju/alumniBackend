@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const notificationSchema = new mongoose.Schema({
   title: {
@@ -20,8 +20,8 @@ const notificationSchema = new mongoose.Schema({
     type: [String], // Array of links (URLs)
     required: false,
     validate: {
-      validator: (links) => links.every(link => /^https?:\/\/.+$/.test(link)),
-      message: 'All links must be valid URLs.',
+      validator: (links) => links.every((link) => /^https?:\/\/.+$/.test(link)),
+      message: "All links must be valid URLs.",
     },
   },
   timestamp: {
@@ -30,6 +30,6 @@ const notificationSchema = new mongoose.Schema({
   },
 });
 
-const Notification = mongoose.model('Notification', notificationSchema);
+const Notification = mongoose.model("Notification", notificationSchema);
 
 export default Notification;

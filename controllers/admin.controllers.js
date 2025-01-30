@@ -185,7 +185,6 @@ export const getAdminDetailsByToken = async (req, res) => {
   }
 };
 
-
 /**
  * @swagger
  * /admin/delete/{id}:

@@ -1,4 +1,4 @@
-import Notification from '../models/notifications.modal.js'; // Adjust the path to your model file
+import Notification from "../models/notifications.modal.js"; // Adjust the path to your model file
 
 // Create a new notification
 export const createNotification = async (req, res) => {
@@ -14,11 +14,13 @@ export const createNotification = async (req, res) => {
 
     const savedNotification = await notification.save();
     res.status(201).json({
-      message: 'Notification created successfully!',
+      message: "Notification created successfully!",
       data: savedNotification,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to create notification', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to create notification", error: error.message });
   }
 };
 
@@ -35,15 +37,17 @@ export const editNotification = async (req, res) => {
     );
 
     if (!updatedNotification) {
-      return res.status(404).json({ message: 'Notification not found' });
+      return res.status(404).json({ message: "Notification not found" });
     }
 
     res.status(200).json({
-      message: 'Notification updated successfully!',
+      message: "Notification updated successfully!",
       data: updatedNotification,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to update notification', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to update notification", error: error.message });
   }
 };
 
@@ -55,15 +59,17 @@ export const deleteNotification = async (req, res) => {
     const deletedNotification = await Notification.findByIdAndDelete(id);
 
     if (!deletedNotification) {
-      return res.status(404).json({ message: 'Notification not found' });
+      return res.status(404).json({ message: "Notification not found" });
     }
 
     res.status(200).json({
-      message: 'Notification deleted successfully!',
+      message: "Notification deleted successfully!",
       data: deletedNotification,
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to delete notification', error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to delete notification", error: error.message });
   }
 };
 
@@ -75,12 +81,17 @@ export const getNotificationById = async (req, res) => {
     const notification = await Notification.findById(id);
 
     if (!notification) {
-      return res.status(404).json({ message: 'Notification not found' });
+      return res.status(404).json({ message: "Notification not found" });
     }
 
     res.status(200).json(notification);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to retrieve notification', error: error.message });
+    res
+      .status(500)
+      .json({
+        message: "Failed to retrieve notification",
+        error: error.message,
+      });
   }
 };
 
@@ -98,7 +109,7 @@ export const getNotifications = async (req, res) => {
     const totalCount = await Notification.countDocuments();
 
     res.status(200).json({
-      message: 'Notifications retrieved successfully!',
+      message: "Notifications retrieved successfully!",
       data: notifications,
       pagination: {
         total: totalCount,
@@ -108,6 +119,11 @@ export const getNotifications = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to retrieve notifications', error: error.message });
+    res
+      .status(500)
+      .json({
+        message: "Failed to retrieve notifications",
+        error: error.message,
+      });
   }
 };

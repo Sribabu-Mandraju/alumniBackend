@@ -9,7 +9,9 @@ export const signUp = async (req, res) => {
 
   try {
     // Check if the email or RGUKT ID already exists
-    const existingAlumni = await Alumni.findOne({ $or: [{ email }, { rguktId }] });
+    const existingAlumni = await Alumni.findOne({
+      $or: [{ email }, { rguktId }],
+    });
     if (existingAlumni) {
       return res.status(400).json({ message: "Alumni already exists!" });
     }
@@ -32,7 +34,9 @@ export const signUp = async (req, res) => {
     console.log("saved");
 
     // Generate JWT token
-    const token = jwt.sign({ id: newAlumni._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: newAlumni._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.status(201).json({
       message: "Alumni registered successfully",
@@ -63,7 +67,9 @@ export const login = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: alumni._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: alumni._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.status(200).json({
       message: "Login successful",
