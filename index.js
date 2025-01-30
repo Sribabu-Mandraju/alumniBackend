@@ -13,6 +13,7 @@ import donationRoutes from "./routes/donationRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import workshopRoutes from "./routes/workshopRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
 
 // Initialize dotenv for environment variables
 dotenv.config();
@@ -115,6 +116,7 @@ app.use("/donations",donationRoutes);
 app.use("/posts",postRoutes);
 app.use("/workshops",workshopRoutes);
 app.use("/events",eventRoutes); 
+app.use("/jobs",jobRoutes)
 
 console.log(`Server configured to run on port ${PORT}`);
 console.log("MongoDB connection attempted");

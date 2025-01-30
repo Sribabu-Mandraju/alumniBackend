@@ -1,14 +1,24 @@
 import Post from "../modals/posts.js";
 import Alumni from "../modals/alumni.modal.js";
+import cloudinary from "../config/cloudinary.js";  // Assuming cloudinary configuration is in this path
 
 // Create a post
 export const createPost = async (req, res) => {
   try {
+    let imageUrl = null;
+    if (req.file) {
+      // Upload image to Cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "posts_images",  // Optionally specify folder in Cloudinary
+      });
+      imageUrl = result.secure_url;  // Cloudinary URL of the uploaded image
+    }
+
     // Create post with the provided body and optional image
     const post = new Post({
       ...req.body,
       alumni_user_id: req.body.alumni_user_id, // Ensure alumni_user_id is passed in request
-      image: req.file ? req.file.path : null // Handle image uploads (if applicable, e.g., using Cloudinary)
+      image: imageUrl, // Store Cloudinary URL instead of local path
     });
 
     // Save the post
@@ -52,9 +62,22 @@ export const getPostsByAlumni = async (req, res) => {
 // Update a post
 export const updatePost = async (req, res) => {
   try {
+    // Handle image update (if new image is uploaded)
+    let imageUrl = req.body.image;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "posts_images",
+      });
+      imageUrl = result.secure_url;
+    }
+
     // Update the post and ensure it's populated with the alumni reference
-    const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const updatedPost = await Post.findByIdAndUpdate(req.params.id, {
+      ...req.body,
+      image: imageUrl,  // Update image if it is provided
+    }, { new: true })
       .populate('alumni_user_id');  // Populate alumni reference after update
+
     res.status(200).json(updatedPost);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -73,6 +96,12 @@ export const deletePost = async (req, res) => {
     await Alumni.findByIdAndUpdate(post.alumni_user_id, {
       $pull: { posts: post._id } // Remove the post reference from alumni's posts
     });
+
+    // Optionally, delete image from Cloudinary (if it exists)
+    if (post.image) {
+      const publicId = post.image.split("/").pop().split(".")[0]; // Extract public ID
+      await cloudinary.uploader.destroy(publicId);  // Delete image from Cloudinary
+    }
 
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (error) {
