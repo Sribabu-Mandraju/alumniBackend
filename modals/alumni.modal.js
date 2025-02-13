@@ -74,7 +74,7 @@ const alumniSchema = new Schema(
       },
     },
     profilePhoto: {
-      type: String, // URL of profile photo
+     type: String, // URL of profile photo
       default: "",
     },
     phone: {
