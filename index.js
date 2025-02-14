@@ -15,11 +15,12 @@ import workshopRoutes from "./routes/workshopRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import reunion from "./routes/reunion.routes.js";
 import Contact from "./routes/contact.routes.js";
+import Sponsorship from "./routes/sponsorship.routes.js";
 // Initialize dotenv for environment variables
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8004;
+const PORT = process.env.PORT || 9990;
 
 // MongoDB connection
 mongoose
@@ -118,6 +119,7 @@ app.use("/workshops",workshopRoutes);
 app.use("/events",eventRoutes); 
 app.use("/reunion",reunion);
 app.use("/contact",Contact);
+app.use("/sponsorship",Sponsorship);
 
 console.log(`Server configured to run on port ${PORT}`);
 console.log("MongoDB connection attempted");
