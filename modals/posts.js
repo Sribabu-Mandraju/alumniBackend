@@ -4,17 +4,13 @@ const { Schema } = mongoose;
 
 const postSchema = new Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    
     description: {
       type: String,
       required: true,
       trim: true,
     },
-    category: {
+    role: {
       type: String,
       required: true,
       trim: true,
@@ -31,6 +27,16 @@ const postSchema = new Schema(
     image: {
       type: String, // Stores image URL
       default: null, // Allows posts without images
+    },
+    technologies:{
+      type:[String],
+      default:[]
+    },
+    typejob:{
+      type: String,
+      required: true,
+      enum: ["internship","fullintern"], // Extendable list of roles
+    
     },
   },
   {
