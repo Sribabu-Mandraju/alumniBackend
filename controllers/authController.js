@@ -6,7 +6,7 @@ import Alumni from "../modals/alumni.modal.js"; // Your alumni model
 // Signup: Register a new alumni
 export const signUp = async (req, res) => {
   const { username, email, rguktId, password, phone } = req.body;
-
+  console.log(password);
   try {
     // Check if the email or RGUKT ID already exists
     const existingAlumni = await Alumni.findOne({
@@ -37,6 +37,7 @@ export const signUp = async (req, res) => {
     const token = jwt.sign({ id: newAlumni._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
+    console.log(token);
 
     res.status(201).json({
       message: "Alumni registered successfully",
@@ -52,16 +53,19 @@ export const signUp = async (req, res) => {
 // Login: Authenticate an alumni and generate token
 export const login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
 
   try {
     // Check if alumni exists
     const alumni = await Alumni.findOne({ email });
+    console.log(alumni);
     if (!alumni) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     // Compare password with stored hash
     const isMatch = await bcrypt.compare(password, alumni.password);
+    console.log(isMatch);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
