@@ -1,1 +1,33 @@
-POST lo
+
+POST http://localhost:8000/todo/createTodo
+Content-Type: application/json
+
+{
+  "title": "Love",
+  "description": "Prepare and submit the final project report by the deadline.",
+  "completed": false,
+  "priority": "high",
+  "dueDate": "2024-08-30T23:59:59.000Z"
+}
+
+
+###
+GET http://localhost:8000/todo/getTodos
+Content-Type: application/json
+
+
+###
+DELETE http://localhost:8000/todo/deleteTodo/67bc55f4ab387e70dbf35c69
+Content-Type: application/json
+
+###
+PUT http://localhost:8000/todo/update/67bc559417df543be69bc507
+Content-Type: application/json
+
+{
+  "title": "Love",
+  "description": "Prepare and submit the final project report by the deadline.",
+  "completed": false,
+  "priority": "high",
+  "dueDate": "2024-08-30T23:59:59.000Z"
+}
