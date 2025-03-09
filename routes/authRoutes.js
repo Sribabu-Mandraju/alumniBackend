@@ -3,7 +3,7 @@ import {
   getAlumniProfile,
   updateAlumniProfile,
   updateProfilePhoto,
-  verifyAlumni,
+  verifyAlumniProfile,
   addContribution,
   removeContribution,
   updateCurrentPosition,
@@ -18,7 +18,7 @@ router.get("/:id", getAlumniProfile);
 
 router.put("/:id", updateAlumniProfile);
 router.put("/:id/photo", updateProfilePhoto);
-router.put("/:id/verify", verifyAlumni);
+router.put("/:id/verify", verifyAlumniProfile);
 router.put("/:id/contributions/add", addContribution);
 router.put("/:id/contributions/remove", removeContribution);
 router.put("/:id/position", updateCurrentPosition);
@@ -28,5 +28,11 @@ router.delete("/:id", deleteAlumni);
 
 router.post("/signup", signUp);
 router.post("/login", login);
+
+
+// // Alumni verification routes
+// router.post('/alumni/request-verification', requestAlumniVerification);
+// router.patch('/alumni/verify/:id', verifyAlumni);
+
 
 export default router;

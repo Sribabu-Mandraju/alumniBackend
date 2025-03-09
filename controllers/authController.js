@@ -116,7 +116,7 @@ export const updateProfilePhoto = async (req, res) => {
   }
 };
 
-export const verifyAlumni = async (req, res) => {
+export const verifyAlumniProfile = async (req, res) => {
   try {
     const alumni = await Alumni.findByIdAndUpdate(
       req.params.id,
@@ -206,6 +206,88 @@ export const deleteAlumni = async (req, res) => {
     await Alumni.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Alumni deleted successfully" });
   } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+/**
+ * @swagger
+ * /alumni/request-verification:
+ *   post:
+ *     summary: Request alumni verification
+ *     description: Alumni can request to be verified by an admin.
+ *     tags:
+ *       - Alumni
+ *     responses:
+ *       200:
+ *         description: Verification request submitted successfully
+ *       404:
+ *         description: Alumni not found
+ *       500:
+ *         description: Server error
+ */
+export const requestAlumniVerification = async (req, res) => {
+  try {
+    const alumniId = req.user.id;
+
+    const alumni = await Alumni.findById(alumniId);
+    if (!alumni) {
+      return res.status(404).json({ message: "Alumni not found" });
+    }
+
+    if (alumni.isVerifiedAlumni) {
+      return res.status(400).json({ message: "Alumni is already verified" });
+    }
+
+    alumni.isRequestedToVerifyAlumni = true;
+    await alumni.save();
+
+    res.status(200).json({ message: "Verification request submitted successfully" });
+  } catch (err) {
+    console.error("Error submitting verification request:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+/**
+ * @swagger
+ * /alumni/verify/{id}:
+ *   patch:
+ *     summary: Verify an alumni
+ *     description: Admin can verify an alumni based on their ID.
+ *     tags:
+ *       - Alumni
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the alumni to verify
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Alumni verified successfully
+ *       404:
+ *         description: Alumni not found
+ *       500:
+ *         description: Server error
+ */
+export const verifyAlumni = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const alumni = await Alumni.findById(id);
+    if (!alumni) {
+      return res.status(404).json({ message: "Alumni not found" });
+    }
+
+    alumni.isVerifiedAlumni = true;
+    alumni.isRequestedToVerifyAlumni = false;
+    await alumni.save();
+
+    res.status(200).json({ message: "Alumni verified successfully" });
+  } catch (err) {
+    console.error("Error verifying alumni:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

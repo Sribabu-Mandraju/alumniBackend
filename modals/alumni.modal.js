@@ -31,15 +31,35 @@ const alumniSchema = new Schema(
       type: [String], // Array of contribution descriptions
       default: [],
     },
+    workshops: {
+      type: [String], // Array of workshops attended or conducted
+      default: [],
+    },
+    events: {
+      type: [String], // Array of event participation
+      default: [],
+    },
+    postedJobs: {
+      type: [String], // Array of job posts shared by alumni
+      default: [],
+    },
+    certificates: {
+      type: [String], // Array of certificate URLs or titles
+      default: [],
+    },
     donations: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Donation", // References donations made by alumni
+        ref: "Donation",
       },
     ],
     isVerifiedAlumni: {
       type: Boolean,
-      default: false, // Alumni verification status
+      default: false,
+    },
+    isRequestedToVerifyAlumni: {
+      type: Boolean,
+      default: false,
     },
     currentPosition: {
       workingStatus: {
@@ -54,7 +74,7 @@ const alumniSchema = new Schema(
       },
     },
     profilePhoto: {
-      type: String, // URL of profile photo
+     type: String, // URL of profile photo
       default: "",
     },
     phone: {
@@ -64,7 +84,7 @@ const alumniSchema = new Schema(
     posts: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Post", // References posts made by alumni
+        ref: "Post",
       },
     ],
   },

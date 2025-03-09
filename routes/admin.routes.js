@@ -10,4 +10,6 @@ router.post('/create', adminTokenCheck, isHod, createAdmin);
 router.post('/login', loginAdmin);
 router.get('/', adminTokenCheck,getAdminDetailsByToken);
 
+
+
 export default router;
